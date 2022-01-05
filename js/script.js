@@ -20,25 +20,23 @@ async function getUserInfo() {
     }, 1000);
 };
 
-async function getUserAvatar(info) {
-    return delay(
-        (info.avatar =
-            "https://previews.123rf.com/images/stockgiu/stockgiu1708/stockgiu170802061/83728179-avatar-sketch-of-a-funny-man-s-haed-with-sunglasses-and-hairstyle-design.jpg"),
-        1000
-    );
+async function getUserAvatar(userInfo) {
+    userInfo.avatar ="https://previews.123rf.com/images/stockgiu/stockgiu1708/stockgiu170802061/83728179-avatar-sketch-of-a-funny-man-s-haed-with-sunglasses-and-hairstyle-design.jpg";
+    return delay((userInfo),1000);
 }
 
 async function getUserAdditionalInfo(userInfo) {
-    return delay((userInfo.interests = ['sport', 'books']), 1000);
+    userInfo.interests = ['sport', 'books'];
+    return delay((userInfo), 1000);
 }
 
 
 async function getResult() {
     let userInfo = await getUserInfo();
     let userAvatar = await getUserAvatar(userInfo);
-    let userAdditionalInfo = await getUserAdditionalInfo(userInfo);
+    let userAdditionalInfo = await getUserAdditionalInfo(userAvatar);
 
-    console.log(userInfo);
+    console.log(userAdditionalInfo);
 }
 getResult();
 
@@ -52,8 +50,13 @@ async function getUser() {
     };
 }
 async function getInfo() {
-    let user = await getUser();
-    throw new Error("error");
+    let user
+    try {
+        user = await getUser();
+        throw new Error("Error");
+    } catch (error) {
+        console.error(error)
+    }
 }
 
-getInfo().catch((error) => console.error(error));
+getInfo()
